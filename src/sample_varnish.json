@@ -8,35 +8,113 @@
       "renderer": "region",
       "layout": "ltrTree",
       "name": "osl3",
-      "updated": 1512727321000,
+      "updated": 1512732568000,
       "maxVolume": 0,
       "nodes": [
         {
-          "name": "brahma"
-        },
-        {
-          "name": "acpece5 (acpece5-ece4client)"
-        },
-        {
-          "name": "portunus:2.10.0"
-        },
-        {
-          "name": "acpqbrick"
-        },
-        {
-          "name": "foxfield"
+          "name": "vesta:2.44.10"
         },
         {
           "name": "pipek"
         },
         {
-          "name": "jupiter"
+          "name": "bolton"
+        },
+        {
+          "name": "5-16-197296"
+        },
+        {
+          "name": "5-18-546952"
+        },
+        {
+          "name": "7-18-it-og-telekom"
+        },
+        {
+          "name": "acpece5"
+        },
+        {
+          "name": "acpaptoma"
+        },
+        {
+          "name": "tivoli"
+        },
+        {
+          "name": "5-76-683540"
+        },
+        {
+          "name": "adpcollect"
+        },
+        {
+          "name": "7-18-nyheter"
+        },
+        {
+          "name": "minerva:1.20.2"
+        },
+        {
+          "name": "5-16-6"
+        },
+        {
+          "name": "acpece4"
+        },
+        {
+          "name": "jupiter:1.28.3"
+        },
+        {
+          "name": "7-18-lillehammer"
+        },
+        {
+          "name": "acpcomposer"
+        },
+        {
+          "name": "7-18-dataspill"
+        },
+        {
+          "name": "pluto"
+        },
+        {
+          "name": "foxfield-latestlist"
         },
         {
           "name": "acpsearch"
         },
         {
-          "name": "5-16-6"
+          "name": "node-fetch/1.0"
+        },
+        {
+          "name": "shoal"
+        },
+        {
+          "name": "java/1.8.0_144"
+        },
+        {
+          "name": "7-18-tagless"
+        },
+        {
+          "name": "maelstrom"
+        },
+        {
+          "name": "portunus"
+        },
+        {
+          "name": "acppp"
+        },
+        {
+          "name": "7-18-%C3%B8konomi-og-n%C3%A6ringsliv"
+        },
+        {
+          "name": "5-4-2"
+        },
+        {
+          "name": "go-http-client/1.1"
+        },
+        {
+          "name": "checkpoint"
+        },
+        {
+          "name": "dirpublish"
+        },
+        {
+          "name": "acpindexer"
         },
         {
           "name": "7-all-tagless"
@@ -45,208 +123,145 @@
           "name": "5-18-3"
         },
         {
-          "name": "foxfield-latestlist"
-        },
-        {
-          "name": "5-16-197296"
-        },
-        {
-          "name": "7-18-%C3%B8konomi-og-n%C3%A6ringsliv"
-        },
-        {
-          "name": "7-18-it-og-telekom"
-        },
-        {
-          "name": "7-18-nyheter"
-        },
-        {
-          "name": "kingsport"
-        },
-        {
-          "name": "acppp"
+          "name": "7-16-tagless"
         },
         {
           "name": "bazaar"
         },
         {
-          "name": "acpcomposer (acpcomposer-acpaptoma)"
-        },
-        {
-          "name": "acpcomposer (acpcomposer-acpcomposer)"
-        },
-        {
-          "name": "acpece4"
-        },
-        {
-          "name": "java/1.8.0_112"
-        },
-        {
-          "name": "jupiter:1.28.3"
-        },
-        {
-          "name": "ruby"
-        },
-        {
-          "name": "7-18-dataspill"
-        },
-        {
-          "name": "tornado"
-        },
-        {
-          "name": "adpcollect"
-        },
-        {
-          "name": "go-http-client/1.1"
-        },
-        {
-          "name": "portunus"
-        },
-        {
-          "name": "tivoli"
-        },
-        {
-          "name": "java/1.8.0_144"
-        },
-        {
-          "name": "apache-httpclient/4.5.2 (java/1.8.0_111)"
-        },
-        {
-          "name": "acpindexer (acpindexer-services@ksd1)"
-        },
-        {
-          "name": "acpece5"
-        },
-        {
-          "name": "7-18-tagless"
-        },
-        {
-          "name": "7-18-lillehammer"
-        },
-        {
           "name": "5-76-1"
-        },
-        {
-          "name": "acpaptoma"
-        },
-        {
-          "name": "5-4-2"
-        },
-        {
-          "name": "pluto"
-        },
-        {
-          "name": "acpcomposer"
-        },
-        {
-          "name": "apache-httpclient/4.5.2 (java/1.8.0_112)"
-        },
-        {
-          "name": "atomizer"
-        },
-        {
-          "name": "5-18-546952"
-        },
-        {
-          "name": "mnemonic"
-        },
-        {
-          "name": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
-        },
-        {
-          "name": "7-16-tagless"
-        },
-        {
-          "name": "maelstrom"
-        },
-        {
-          "name": "mercury:4.37.5"
-        },
-        {
-          "name": "jersey/2.25.1 (httpurlconnection 1.8.0_92)"
-        },
-        {
-          "name": "7-62-tagless"
-        },
-        {
-          "name": "frontier"
-        },
-        {
-          "name": "go 1.1 package http"
-        },
-        {
-          "name": "loafer"
-        },
-        {
-          "name": "vesta:2.44.10"
-        },
-        {
-          "name": "5-76-3"
-        },
-        {
-          "name": "minerva:1.20.2"
-        },
-        {
-          "name": "bolton"
-        },
-        {
-          "name": "5-76-683540"
-        },
-        {
-          "name": "shoal"
-        },
-        {
-          "name": "dirpublish"
         },
         {
           "name": "garudaacra"
         },
         {
+          "name": "mnemonic"
+        },
+        {
+          "name": "7-62-tagless"
+        },
+        {
+          "name": "mercury:4.37.5"
+        },
+        {
+          "name": "jupiter"
+        },
+        {
+          "name": "5-76-3"
+        },
+        {
+          "name": "kingsport"
+        },
+        {
+          "name": "brahma"
+        },
+        {
           "name": "7-18-okonomi-og-naringsliv"
         },
         {
-          "name": "checkpoint"
+          "name": "frontier"
+        },
+        {
+          "name": "jersey/2.25.1"
+        },
+        {
+          "name": "ruby"
+        },
+        {
+          "name": "tornado"
+        },
+        {
+          "name": "portunus:2.10.0"
+        },
+        {
+          "name": "foxfield"
+        },
+        {
+          "name": "go"
+        },
+        {
+          "name": "java/1.8.0_112"
+        },
+        {
+          "name": "apache-httpclient/4.5.2"
+        },
+        {
+          "name": "atomizer"
+        },
+        {
+          "name": "loafer"
+        },
+        {
+          "name": "acpqbrick"
         }
       ],
       "connections": [
         {
-          "source": "go 1.1 package http",
-          "target": "7-16-tagless",
+          "source": "bolton",
+          "target": "acpcomposer",
+          "metrics": {
+            "normal": 622,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "acpcomposer",
+          "target": "brahma",
+          "metrics": {
+            "normal": 373,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "acpcomposer",
+          "target": "acpcomposer",
+          "metrics": {
+            "normal": 916,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "java/1.8.0_112",
+          "target": "frontier",
           "metrics": {
             "normal": 2,
             "danger": 0,
-            "warning": 2
+            "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "5-18-546952",
+          "source": "node-fetch/1.0",
+          "target": "shoal",
           "metrics": {
-            "normal": 16,
+            "normal": 351,
             "danger": 0,
-            "warning": 3
+            "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-18-tagless",
+          "source": "vesta:2.44.10",
+          "target": "foxfield",
           "metrics": {
-            "normal": 2,
+            "normal": 18,
             "danger": 0,
-            "warning": 2
+            "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-18-%C3%B8konomi-og-n%C3%A6ringsliv",
+          "source": "go",
+          "target": "7-18-dataspill",
           "metrics": {
             "normal": 0,
             "danger": 0,
-            "warning": 4
+            "warning": 5
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-18-it-og-telekom",
+          "source": "go",
+          "target": "5-16-197296",
           "metrics": {
             "normal": 0,
             "danger": 0,
@@ -254,25 +269,52 @@
           }
         },
         {
-          "source": "apache-httpclient/4.5.2 (java/1.8.0_111)",
+          "source": "go",
           "target": "atomizer",
           "metrics": {
-            "normal": 8,
+            "normal": 221,
             "danger": 0,
             "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-all-tagless",
+          "source": "java/1.8.0_144",
+          "target": "frontier",
           "metrics": {
-            "normal": 0,
+            "normal": 5,
             "danger": 0,
-            "warning": 14
+            "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
+          "source": "node-fetch/1.0",
+          "target": "tivoli",
+          "metrics": {
+            "normal": 25,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-18-okonomi-og-naringsliv",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 6
+          }
+        },
+        {
+          "source": "go",
+          "target": "5-76-683540",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 4
+          }
+        },
+        {
+          "source": "go",
           "target": "7-18-nyheter",
           "metrics": {
             "normal": 2,
@@ -281,16 +323,7 @@
           }
         },
         {
-          "source": "java/1.8.0_112",
-          "target": "atomizer",
-          "metrics": {
-            "normal": 28,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go 1.1 package http",
+          "source": "go",
           "target": "5-16-6",
           "metrics": {
             "normal": 0,
@@ -299,16 +332,97 @@
           }
         },
         {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
-          "target": "acpsearch",
+          "source": "maelstrom",
+          "target": "acpcomposer",
           "metrics": {
-            "normal": 399,
+            "normal": 677,
             "danger": 0,
             "warning": 0
           }
         },
         {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+          "source": "apache-httpclient/4.5.2",
+          "target": "garudaacra",
+          "metrics": {
+            "normal": 20,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
+          "target": "loafer",
+          "metrics": {
+            "normal": 6,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "portunus:2.10.0",
+          "target": "pluto",
+          "metrics": {
+            "normal": 9,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "foxfield-latestlist",
+          "target": "dirpublish",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-18-tagless",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 2
+          }
+        },
+        {
+          "source": "acpcomposer",
+          "target": "acpece5",
+          "metrics": {
+            "normal": 6232,
+            "danger": 0,
+            "warning": 372
+          }
+        },
+        {
+          "source": "jersey/2.25.1",
+          "target": "acpcomposer",
+          "metrics": {
+            "normal": 18,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "java/1.8.0_112",
+          "target": "pipek",
+          "metrics": {
+            "normal": 3,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "acpece5",
+          "target": "acpece4",
+          "metrics": {
+            "normal": 3,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
           "target": "mnemonic",
           "metrics": {
             "normal": 481,
@@ -326,7 +440,16 @@
           }
         },
         {
-          "source": "go 1.1 package http",
+          "source": "mercury:4.37.5",
+          "target": "shoal",
+          "metrics": {
+            "normal": 5,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
           "target": "5-18-3",
           "metrics": {
             "normal": 0,
@@ -335,124 +458,16 @@
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-18-lillehammer",
+          "source": "go",
+          "target": "5-18-546952",
           "metrics": {
-            "normal": 2,
+            "normal": 16,
             "danger": 0,
-            "warning": 2
+            "warning": 3
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "7-62-tagless",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 5
-          }
-        },
-        {
-          "source": "mercury:4.37.5",
-          "target": "jupiter",
-          "metrics": {
-            "normal": 6,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go 1.1 package http",
-          "target": "5-76-1",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 5
-          }
-        },
-        {
-          "source": "acpece5 (acpece5-ece4client)",
-          "target": "acpece4",
-          "metrics": {
-            "normal": 3,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
-          "target": "brahma",
-          "metrics": {
-            "normal": 373,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "vesta:2.44.10",
-          "target": "shoal",
-          "metrics": {
-            "normal": 14,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "portunus:2.10.0",
-          "target": "pluto",
-          "metrics": {
-            "normal": 9,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go-http-client/1.1",
-          "target": "checkpoint",
-          "metrics": {
-            "normal": 112,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "jupiter:1.28.3",
-          "target": "pluto",
-          "metrics": {
-            "normal": 67,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpaptoma)",
-          "target": "acpaptoma",
-          "metrics": {
-            "normal": 41,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go 1.1 package http",
-          "target": "7-18-okonomi-og-naringsliv",
-          "metrics": {
-            "normal": 0,
-            "danger": 0,
-            "warning": 6
-          }
-        },
-        {
-          "source": "vesta:2.44.10",
-          "target": "pluto",
-          "metrics": {
-            "normal": 3,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
+          "source": "acpcomposer",
           "target": "acpece4",
           "metrics": {
             "normal": 1034,
@@ -461,28 +476,10 @@
           }
         },
         {
-          "source": "bolton",
-          "target": "acpcomposer",
-          "metrics": {
-            "normal": 622,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "java/1.8.0_112",
-          "target": "frontier",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
+          "source": "acpcomposer",
           "target": "acpaptoma",
           "metrics": {
-            "normal": 220,
+            "normal": 261,
             "danger": 0,
             "warning": 0
           }
@@ -497,80 +494,8 @@
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "5-4-2",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 6
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
-          "target": "acpece5",
-          "metrics": {
-            "normal": 6232,
-            "danger": 0,
-            "warning": 372
-          }
-        },
-        {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "tivoli",
-          "metrics": {
-            "normal": 25,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpindexer (acpindexer-services@ksd1)",
-          "target": "acpcomposer",
-          "metrics": {
-            "normal": 3,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go 1.1 package http",
-          "target": "7-18-dataspill",
-          "metrics": {
-            "normal": 0,
-            "danger": 0,
-            "warning": 5
-          }
-        },
-        {
-          "source": "go 1.1 package http",
-          "target": "5-76-683540",
-          "metrics": {
-            "normal": 0,
-            "danger": 0,
-            "warning": 4
-          }
-        },
-        {
-          "source": "kingsport",
-          "target": "acpcomposer",
-          "metrics": {
-            "normal": 178,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "shoal",
-          "metrics": {
-            "normal": 351,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "foxfield-latestlist",
-          "target": "acpcomposer",
+          "source": "ruby",
+          "target": "adpcollect",
           "metrics": {
             "normal": 2,
             "danger": 0,
@@ -578,7 +503,7 @@
           }
         },
         {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+          "source": "node-fetch/1.0",
           "target": "tornado",
           "metrics": {
             "normal": 9,
@@ -587,37 +512,55 @@
           }
         },
         {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "loafer",
+          "source": "acpcomposer",
+          "target": "acppp",
           "metrics": {
-            "normal": 6,
+            "normal": 46,
             "danger": 0,
             "warning": 0
           }
         },
         {
-          "source": "go 1.1 package http",
-          "target": "5-16-197296",
-          "metrics": {
-            "normal": 0,
-            "danger": 0,
-            "warning": 8
-          }
-        },
-        {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "acpcomposer",
+          "source": "go",
+          "target": "7-16-tagless",
           "metrics": {
             "normal": 2,
             "danger": 0,
-            "warning": 0
+            "warning": 2
           }
         },
         {
-          "source": "maelstrom",
-          "target": "acpcomposer",
+          "source": "go",
+          "target": "7-18-lillehammer",
           "metrics": {
-            "normal": 677,
+            "normal": 2,
+            "danger": 0,
+            "warning": 2
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-62-tagless",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 5
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-18-%C3%B8konomi-og-n%C3%A6ringsliv",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 4
+          }
+        },
+        {
+          "source": "vesta:2.44.10",
+          "target": "pluto",
+          "metrics": {
+            "normal": 3,
             "danger": 0,
             "warning": 0
           }
@@ -632,127 +575,10 @@
           }
         },
         {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "bolton",
-          "metrics": {
-            "normal": 33,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
-          "target": "acpqbrick",
-          "metrics": {
-            "normal": 0,
-            "danger": 0,
-            "warning": 20
-          }
-        },
-        {
           "source": "foxfield-latestlist",
-          "target": "dirpublish",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "ruby",
-          "target": "adpcollect",
-          "metrics": {
-            "normal": 2,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "java/1.8.0_144",
-          "target": "frontier",
-          "metrics": {
-            "normal": 5,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "foxfield",
-          "metrics": {
-            "normal": 218,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
           "target": "acpcomposer",
           "metrics": {
-            "normal": 916,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "mercury:4.37.5",
-          "target": "shoal",
-          "metrics": {
-            "normal": 5,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "go 1.1 package http",
-          "target": "atomizer",
-          "metrics": {
-            "normal": 221,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "apache-httpclient/4.5.2 (java/1.8.0_112)",
-          "target": "garudaacra",
-          "metrics": {
-            "normal": 20,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "mercury:4.37.5",
-          "target": "foxfield",
-          "metrics": {
-            "normal": 12,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "jersey/2.25.1 (httpurlconnection 1.8.0_92)",
-          "target": "acpcomposer",
-          "metrics": {
-            "normal": 18,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "vesta:2.44.10",
-          "target": "foxfield",
-          "metrics": {
-            "normal": 18,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-          "target": "bazaar",
-          "metrics": {
-            "normal": 136,
+            "normal": 2,
             "danger": 0,
             "warning": 0
           }
@@ -767,17 +593,8 @@
           }
         },
         {
-          "source": "acpcomposer (acpcomposer-acpcomposer)",
-          "target": "acppp",
-          "metrics": {
-            "normal": 46,
-            "danger": 0,
-            "warning": 0
-          }
-        },
-        {
-          "source": "java/1.8.0_112",
-          "target": "pipek",
+          "source": "acpindexer",
+          "target": "acpcomposer",
           "metrics": {
             "normal": 3,
             "danger": 0,
@@ -785,12 +602,174 @@
           }
         },
         {
-          "source": "go 1.1 package http",
+          "source": "java/1.8.0_112",
+          "target": "atomizer",
+          "metrics": {
+            "normal": 28,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
+          "target": "bolton",
+          "metrics": {
+            "normal": 33,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
           "target": "5-76-3",
           "metrics": {
             "normal": 0,
             "danger": 0,
             "warning": 5
+          }
+        },
+        {
+          "source": "acpcomposer",
+          "target": "acpsearch",
+          "metrics": {
+            "normal": 399,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "jupiter:1.28.3",
+          "target": "pluto",
+          "metrics": {
+            "normal": 67,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
+          "target": "bazaar",
+          "metrics": {
+            "normal": 136,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "acpcomposer",
+          "target": "acpqbrick",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 20
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-all-tagless",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 14
+          }
+        },
+        {
+          "source": "apache-httpclient/4.5.2",
+          "target": "atomizer",
+          "metrics": {
+            "normal": 8,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
+          "target": "foxfield",
+          "metrics": {
+            "normal": 218,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "kingsport",
+          "target": "acpcomposer",
+          "metrics": {
+            "normal": 178,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "mercury:4.37.5",
+          "target": "foxfield",
+          "metrics": {
+            "normal": 12,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
+          "target": "7-18-it-og-telekom",
+          "metrics": {
+            "normal": 0,
+            "danger": 0,
+            "warning": 8
+          }
+        },
+        {
+          "source": "node-fetch/1.0",
+          "target": "acpcomposer",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
+          "target": "5-4-2",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 6
+          }
+        },
+        {
+          "source": "go-http-client/1.1",
+          "target": "checkpoint",
+          "metrics": {
+            "normal": 112,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "mercury:4.37.5",
+          "target": "jupiter",
+          "metrics": {
+            "normal": 6,
+            "danger": 0,
+            "warning": 0
+          }
+        },
+        {
+          "source": "go",
+          "target": "5-76-1",
+          "metrics": {
+            "normal": 2,
+            "danger": 0,
+            "warning": 5
+          }
+        },
+        {
+          "source": "vesta:2.44.10",
+          "target": "shoal",
+          "metrics": {
+            "normal": 14,
+            "danger": 0,
+            "warning": 0
           }
         }
       ]
