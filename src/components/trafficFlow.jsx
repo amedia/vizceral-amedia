@@ -150,7 +150,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('sample_data.json')
+    request.get('sample_varnish.json')
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
