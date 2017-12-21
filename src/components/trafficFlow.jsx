@@ -150,7 +150,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('sample_varnish.json')
+    request.get('http://localhost:3000/api/erebos/v1/vizceral')
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
@@ -160,16 +160,29 @@ class TrafficFlow extends React.Component {
       });
   }
 
+  update () {
+    request.get('http://localhost:3000/api/erebos/v1/vizceral')
+    .set('Accept', 'application/json')
+    .end((err, res) => {
+      if (res && res.status === 200) {
+        this.traffic.clientUpdateTime = Date.now();
+        this.updateData(res.body);
+      }
+    });
+  }
+
   componentDidMount () {
     this.checkInitialRoute();
     this.beginSampleData();
 
     // Listen for changes to the stores
     filterStore.addChangeListener(this.filtersChanged);
+    this.timer = setInterval(this.update.bind(this), 1000);
   }
 
   componentWillUnmount () {
     filterStore.removeChangeListener(this.filtersChanged);
+    clearInterval(this.timer);
   }
 
   shouldComponentUpdate (nextProps, nextState) {
