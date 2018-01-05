@@ -1,6 +1,6 @@
 FROM dr.api.no/amedia/alpine-node:latest
 
-ENV APPNAME vizceral-amedia
+ENV APPNAME vizceral
 ADD . /usr/src/app
 WORKDIR /usr/src/app
 
@@ -15,7 +15,7 @@ RUN npm install && \
 
 USER $APPNAME
 
-ENV PORT 9692
+ENV PORT 9693
 EXPOSE $PORT
 
 CMD [ "npm", "run", "dev-server" ]
