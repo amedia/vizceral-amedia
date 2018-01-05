@@ -1,6 +1,6 @@
 {
   "name": "vizceral",
-  "version": "4.3.0",
+  "version": "0.0.1",
   "description": "Amedia fork of Vizceral",
   "author": "Justin Reynolds <jreynolds@netflix.com>",
   "scripts": {
