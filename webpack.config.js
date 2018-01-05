@@ -9,7 +9,7 @@ module.exports = {
   entry: './src/app.jsx',
   output: {
     path: path.join(__dirname, 'dist'),
-		publicPath: '/',
+    publicPath: '/',
     filename: 'vizceral.[hash].bundle.js'
   },
   resolve: {
@@ -43,7 +43,8 @@ module.exports = {
       $: 'jquery'
     }),
     new webpack.DefinePlugin({
-      __HIDE_DATA__: !!process.env.HIDE_DATA
+      __HIDE_DATA__: !!process.env.HIDE_DATA,
+      EREBOS_BASE_URL: JSON.stringify(process.env.EREBOS_BASE_URL)
     }),
     new HtmlWebpackPlugin({
       title: 'Vizceral',

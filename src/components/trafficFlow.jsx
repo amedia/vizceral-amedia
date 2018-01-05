@@ -37,6 +37,11 @@ requestAnimationFrame(animate);
 
 const panelWidth = 400;
 
+let erebosBaseUrl = 'http://localhost:9810/api/erebos';
+if (typeof EREBOS_BASE_URL !== 'undefined') {
+  erebosBaseUrl = EREBOS_BASE_URL;
+}
+
 class TrafficFlow extends React.Component {
   constructor (props) {
     super(props);
@@ -150,7 +155,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('http://localhost:9810/api/erebos/v1/vizceral')
+    request.get(`${erebosBaseUrl}/v1/vizceral`)
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
@@ -161,7 +166,7 @@ class TrafficFlow extends React.Component {
   }
 
   update () {
-    request.get('http://localhost:9810/api/erebos/v1/vizceral')
+    request.get(`${erebosBaseUrl}/v1/vizceral`)
     .set('Accept', 'application/json')
     .end((err, res) => {
       if (res && res.status === 200) {
