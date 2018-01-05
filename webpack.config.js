@@ -51,5 +51,8 @@ module.exports = {
       favicon: './src/favicon.ico',
       inject: true
     })
-  ]
+  ],
+  devServer: {
+    disableHostCheck: true,   // That solved it
+  }
 };

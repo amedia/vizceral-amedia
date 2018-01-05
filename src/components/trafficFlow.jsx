@@ -150,7 +150,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get('http://localhost:3000/api/erebos/v1/vizceral')
+    request.get('http://localhost:9810/api/erebos/v1/vizceral')
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
@@ -161,7 +161,7 @@ class TrafficFlow extends React.Component {
   }
 
   update () {
-    request.get('http://localhost:3000/api/erebos/v1/vizceral')
+    request.get('http://localhost:9810/api/erebos/v1/vizceral')
     .set('Accept', 'application/json')
     .end((err, res) => {
       if (res && res.status === 200) {
