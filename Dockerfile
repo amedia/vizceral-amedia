@@ -1,15 +1,19 @@
-FROM mhart/alpine-node
+FROM dr.api.no/amedia/alpine-node:latest
 
-# Create app directory
-RUN mkdir -p /usr/src/app
+ENV APPNAME vizceral-amedia
+ADD . /usr/src/app
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
-RUN npm install
+RUN npm install && \
+    npm run clean && \
+    adduser -s /bin/bash -u 1000 -S $APPNAME && \
+    chown -R $APPNAME . && \
+    apk --update del python make expat gdbm sqlite-libs libbz2 libffi g++ gcc && \
+    rm -rf /var/cache/apk/*
 
-# Bundle app source
-COPY . /usr/src/app
+USER $APPNAME
 
-EXPOSE 8080
+ENV PORT 9692
+EXPOSE $PORT
+
 CMD [ "npm", "run", "dev" ]
