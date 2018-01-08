@@ -6,12 +6,16 @@ const compression = require('compression');
 const cors = require('cors');
 const errorMiddleware = require('express-error-responses').middleware;
 const access = require('@amedia/amedia-access-log');
+const webpack = require('webpack');
+const path = require('path');
 
 const config = require('../config');
 const log = require('./log');
 const errorLogMiddleware = require('./errorLogMiddleware');
+const webpackConfig = require('../webpack.config');
 
 const app = express();
+const router = express.Router();
 
 function setupErrorHandling() {
   app.use(errorLogMiddleware);
@@ -41,6 +45,11 @@ function setupPing() {
 
 function setupRoutes() {
   app.use(config.get('apiPath'), express.static('dist'));
+
+  // Catch all paths not resolved to a static asset, so that it can be loaded as a resource in the app running client
+  // side (e.g. a datacenter such as "/osl3")
+  router.get('*', (req, res) => res.sendFile(path.resolve('dist', 'index.html')));
+  app.use(config.get('apiPath'), router);
 }
 
 setupHeaders();
@@ -52,9 +61,16 @@ setupErrorHandling();
 
 // Start application
 const server = http.createServer(app);
-server.listen(config.get('httpServerPort'), () => {
-  log.info(`server process has pid ${process.pid}`);
-  log.info(`api routes available under ${config.get('apiPath')}`);
+webpack(webpackConfig, (err, stats) => {
+  if (err || stats.hasErrors()) {
+    log.error(err, `Failed to build assets, got exception ${err ? err.name : stats.toString()}`);
+    return process.nextTick(() => process.exit(1));
+  }
+
+  return server.listen(config.get('httpServerPort'), () => {
+    log.info(`server process has pid ${process.pid}`);
+    log.info(`api routes available under ${config.get('apiPath')}`);
+  });
 });
 
 // Catch uncaught exceptions, log it and take down server in a nice way.
