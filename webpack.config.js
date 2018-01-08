@@ -1,15 +1,19 @@
 /* globals __dirname process */
+
 'use strict';
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const config = require('./config');
+const express = require('express');
 
 module.exports = {
   devtool: 'source-map',
-  entry: './src/app.jsx',
+  entry: './client/app.jsx',
   output: {
     path: path.join(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: `${config.get('apiPath')}/`,
     filename: 'vizceral.[hash].bundle.js'
   },
   resolve: {
@@ -44,16 +48,28 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       __HIDE_DATA__: !!process.env.HIDE_DATA,
-      EREBOS_BASE_URL: JSON.stringify(process.env.EREBOS_BASE_URL)
+      EREBOS_BASE_URL: JSON.stringify(process.env.EREBOS_BASE_URL),
+      API_PATH: JSON.stringify(config.get('apiPath'))
     }),
     new HtmlWebpackPlugin({
       title: 'Vizceral',
-      template: './src/index.html',
-      favicon: './src/favicon.ico',
+      template: './client/index.html',
+      favicon: './client/favicon.ico',
       inject: true
     })
   ],
   devServer: {
     disableHostCheck: true,   // That solved it
+    historyApiFallback: true,
+    contentBase: path.join(__dirname, 'dist'), // static files location
+    watchContentBase: true,
+    // For some reason the fonts are not available at the expected location using webpack-dev-server. Use this hack
+    // to proxy requests from expected location to the available location
+    proxy: {
+      '/api/vizceral/fonts/*': {
+        target: 'http://localhost:9693',
+        pathRewrite: { '^/api/vizceral/fonts': '/fonts' },
+      },
+    },
   },
 };

@@ -37,10 +37,8 @@ requestAnimationFrame(animate);
 
 const panelWidth = 400;
 
-let erebosBaseUrl = 'http://localhost:9810/api/erebos';
-if (typeof EREBOS_BASE_URL !== 'undefined') {
-  erebosBaseUrl = EREBOS_BASE_URL;
-}
+const erebosBaseUrl = typeof EREBOS_BASE_URL !== 'undefined' ? EREBOS_BASE_URL : 'http://localhost:9810/api/erebos';
+const apiPath = typeof API_PATH !== 'undefined' ? API_PATH : '/api/vizceral';
 
 class TrafficFlow extends React.Component {
   constructor (props) {
@@ -140,7 +138,8 @@ class TrafficFlow extends React.Component {
 
   checkInitialRoute () {
     // Check the location bar for any direct routing information
-    const pathArray = window.location.pathname.split('/');
+    const path = window.location.pathname.replace(apiPath, '');
+    const pathArray = path.split('/');
     const currentView = [];
     if (pathArray[1]) {
       currentView.push(pathArray[1]);
@@ -205,7 +204,7 @@ class TrafficFlow extends React.Component {
         const highlightedObjectName = nextState.highlightedObject && nextState.highlightedObject.getName();
         const state = {
           title: document.title,
-          url: nextState.currentView.join('/') + (highlightedObjectName ? `?highlighted=${highlightedObjectName}` : ''),
+          url: `${apiPath}/${nextState.currentView.join('/')}${highlightedObjectName ? `?highlighted=${highlightedObjectName}` : ''}`,
           selected: nextState.currentView,
           highlighted: highlightedObjectName
         };

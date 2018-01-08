@@ -41,6 +41,7 @@
   ],
   "globals": {
     "process": false,
-    "EREBOS_BASE_URL": false
+    "EREBOS_BASE_URL": false,
+    "API_PATH": false
   }
 }

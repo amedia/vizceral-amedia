@@ -6,14 +6,12 @@ const compression = require('compression');
 const cors = require('cors');
 const errorMiddleware = require('express-error-responses').middleware;
 const access = require('@amedia/amedia-access-log');
-const path = require('path');
 
 const config = require('../config');
 const log = require('./log');
 const errorLogMiddleware = require('./errorLogMiddleware');
 
 const app = express();
-const router = express.Router();
 
 function setupErrorHandling() {
   app.use(errorLogMiddleware);
@@ -36,15 +34,13 @@ function setupPing() {
   app.get(`${config.get('contextPath')}/apiadmin/ping`,
     (req, res) => {
       const message = `OK ${config.get('version')}`;
-      res.headerManager.setLocalChannelMaxAge(0);
       res.statusMessage = message;
       res.send(message);
     });
 }
 
 function setupRoutes() {
-  router.get('*', (req, res) => res.sendFile(path.resolve('dist', 'index.html')));
-  app.use(config.get('apiPath'), router);
+  app.use(config.get('apiPath'), express.static('dist'));
 }
 
 setupHeaders();

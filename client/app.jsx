@@ -9,6 +9,8 @@ import WebFont from 'webfontloader';
 import './app.css';
 import TrafficFlow from './components/trafficFlow';
 
+const apiPath = typeof API_PATH !== 'undefined' ? API_PATH : '/api/vizceral';
+
 function fontsActive () {
   ReactDOM.render(
     <TrafficFlow />,
@@ -24,7 +26,7 @@ function fontsActive () {
 WebFont.load({
   custom: {
     families: ['Source Sans Pro:n3,n4,n6,n7'],
-    urls: ['/fonts/source-sans-pro.css']
+    urls: [`${apiPath}/fonts/source-sans-pro.css`]
   },
   active: fontsActive
 });
