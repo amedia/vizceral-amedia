@@ -8,6 +8,7 @@ RUN npm install && \
     npm run clean && \
     npm run copy:fonts && \
     npm run copy:json && \
+    npm run build && \
     adduser -s /bin/bash -u 1000 -S $APPNAME && \
     chown -R $APPNAME . && \
     apk --update del python make expat gdbm sqlite-libs libbz2 libffi g++ gcc && \
@@ -18,4 +19,4 @@ USER $APPNAME
 ENV PORT 9693
 EXPOSE $PORT
 
-CMD [ "npm", "run", "dev-server" ]
+CMD [ "npm", "start" ]

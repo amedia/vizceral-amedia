@@ -10,6 +10,8 @@
     "copy:json": "cpx \"./src/*.json\" ./dist",
     "dev-server": "webpack-dev-server --host=0.0.0.0 --port=9693 --content-base dist/ --history-api-fallback",
     "dev": "npm-run-all clean --parallel copy:* dev-server",
+    "build": "webpack",
+    "start": "node server",
     "validate": "npm ls"
   },
   "engines": {
@@ -17,9 +19,17 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@amedia/amedia-access-log": "^1.2.1",
     "bootstrap": "^3.3.7",
+    "bunyan": "^1.8.12",
+    "compression": "^1.7.1",
+    "convict": "^4.0.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-error-responses": "^0.3.0",
     "flux": "^3.1.0",
     "hammerjs": "^2.0.8",
+    "http": "0.0.0",
     "jquery": "^3.1.1",
     "keymirror": "^0.1.1",
     "keypress.js": "2.1.0-1",
