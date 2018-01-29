@@ -7,7 +7,8 @@ class DisplayOptions extends React.Component {
     super(props);
     this.state = {
       allowDraggingOfNodes: false,
-      showLabels: true
+      showLabels: true,
+      metric: 'http'
     };
   }
 
@@ -24,6 +25,15 @@ class DisplayOptions extends React.Component {
     this.props.changedCallback(newState);
   }
 
+  _onRadioBoxChanged (event) {
+    const radio = event.target;
+    const statePropName = radio.id;
+    const newState = {};
+    newState[statePropName] = radio.value;
+    this.setState(newState);
+    this.props.changedCallback(newState);
+  }
+
   render () {
     const allowDraggingOfNodes = this.state.allowDraggingOfNodes;
     const showLabels = this.state.showLabels;
@@ -36,6 +46,16 @@ class DisplayOptions extends React.Component {
         <div>
           <input id="showLabels" type="checkbox" checked={showLabels} onChange={event => this._onCheckBoxChanged(event)}/>
           <label htmlFor="showLabels">Show Labels</label>
+        </div>
+        <div>
+          <label>
+            <input id="metric" type="radio" value="http" checked={this.state.metric === 'http'} onChange={event => this._onRadioBoxChanged(event)}/>
+            Http
+          </label>
+          <label>
+            <input id="metric" type="radio" value="cache" checked={this.state.metric === 'cache'} onChange={event => this._onRadioBoxChanged(event)}/>
+            Cache
+          </label>
         </div>
       </div>
     );

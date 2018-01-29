@@ -50,7 +50,8 @@ class TrafficFlow extends React.Component {
       selectedChart: undefined,
       displayOptions: {
         allowDraggingOfNodes: false,
-        showLabels: true
+        showLabels: true,
+        metric: 'http'
       },
       currentGraph_physicsOptions: {
         isEnabled: true,
@@ -154,7 +155,7 @@ class TrafficFlow extends React.Component {
 
   beginSampleData () {
     this.traffic = { nodes: [], connections: [] };
-    request.get(`${erebosBaseUrl}/v1/vizceral`)
+    request.get(`${erebosBaseUrl}/v1/vizceral?metric=${this.state.displayOptions.metric}`)
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
@@ -165,7 +166,7 @@ class TrafficFlow extends React.Component {
   }
 
   update () {
-    request.get(`${erebosBaseUrl}/v1/vizceral`)
+    request.get(`${erebosBaseUrl}/v1/vizceral?metric=${this.state.displayOptions.metric}`)
     .set('Accept', 'application/json')
     .end((err, res) => {
       if (res && res.status === 200) {
