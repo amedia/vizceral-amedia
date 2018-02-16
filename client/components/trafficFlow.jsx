@@ -130,7 +130,7 @@ class TrafficFlow extends React.Component {
 
   objectHighlighted = (highlightedObject) => {
     // need to set objectToHighlight for diffing on the react component. since it was already highlighted here, it will be a noop
-    this.setState({ highlightedObject: highlightedObject, objectToHighlight: highlightedObject ? highlightedObject.getName() : undefined, searchTerm: '', matches: { total: -1, visible: -1 }, redirectedFrom: undefined });
+    this.setState({ focusedNode: highlightedObject, highlightedObject: highlightedObject, objectToHighlight: highlightedObject, searchTerm: '', matches: { total: -1, visible: -1 }, redirectedFrom: undefined });
   }
 
   nodeContextSizeChanged = (dimensions) => {
@@ -299,7 +299,7 @@ class TrafficFlow extends React.Component {
   nodeClicked = (node) => {
     if (this.state.currentView.length === 1) {
       // highlight node
-      this.setState({ objectToHighlight: node.getName() });
+      this.setState({ objectToHighlight: node });
     } else if (this.state.currentView.length === 2) {
       // detailed view of node
       this.setState({ currentView: [this.state.currentView[0], node.getName()] });
