@@ -1,11 +1,15 @@
 FROM dr.api.no/amedia/alpine-node:latest
 
 ENV APPNAME vizceral
-ADD . /usr/src/app
 WORKDIR /usr/src/app
 
-RUN npm install && \
-    npm run build:client && \
+COPY package* /usr/src/app/
+RUN npm config set -g production false # Ensure devDependencies are installed
+RUN npm install
+
+COPY . /usr/src/app
+
+RUN npm run build:client && \
     npm prune --production && \
     adduser -s /bin/bash -u 1000 -S $APPNAME && \
     chown -R $APPNAME . && \

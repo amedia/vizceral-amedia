@@ -59,7 +59,9 @@ module.exports = {
   ],
   devServer: {
     disableHostCheck: true,   // That solved it
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: `${config.get('apiPath')}/`
+    },
     contentBase: path.join(__dirname, 'dist'), // static files location
     watchContentBase: true,
     // For some reason the fonts are not available at the expected location using webpack-dev-server. Use this hack
