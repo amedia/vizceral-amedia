@@ -1,0 +1,20 @@
+{
+  "cop.version": 1.0,
+  "builds": [
+    {
+      "build": {
+        "name": "vizceral",
+        "type": "docker",
+        "tool": "npm",
+        "access": "private"
+      },
+      "release": {
+        "docker": {
+          "target": [
+            "dr.api.no"
+          ]
+        }
+      }
+    }
+  ]
+}
