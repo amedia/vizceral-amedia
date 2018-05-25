@@ -260,10 +260,6 @@ body > .container {
   border-bottom: 2px solid;
 }
 
-a.accordion-toggle {
-  text-decoration: none;
-}
-
 /* SPINNER */
 @keyframes spinner {
     to {transform: rotate(360deg);}

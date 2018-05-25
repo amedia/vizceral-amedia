@@ -5,7 +5,7 @@ import TWEEN from 'tween.js';
 
 import './loadingCover.css';
 
-const logo = require('url!./vizceral-mark.png'); // eslint-disable-line import/no-extraneous-dependencies
+const logo = require('url!../../assets/vizceral-mark.png'); // eslint-disable-line import/no-extraneous-dependencies
 
 const helperStyles = {
   display: 'inline-block',

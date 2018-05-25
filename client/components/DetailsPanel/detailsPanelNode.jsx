@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import ConnectionList from './connectionList';
+import ConnectionList from '../connectionList';
 import DetailsSubpanel from './detailsSubpanel';
 import DetailsSubpanelSubNodes from './detailsSubpanelSubNodes';
-import Notices from './notices';
+import Notices from '../notices';
 
 import './detailsPanel.css';
 

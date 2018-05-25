@@ -5,25 +5,25 @@ import { Alert } from 'react-bootstrap';
 import React from 'react';
 import TWEEN from 'tween.js'; // Start TWEEN updates for sparklines and loading screen fading out
 import Vizceral from 'vizceral-react';
-import 'vizceral-react/dist/vizceral.css';
-import keypress from 'keypress.js';
 import queryString from 'query-string';
 import request from 'superagent';
 
+import 'vizceral-react/dist/vizceral.css';
+import keypress from '../../../node_modules/keypress.js/keypress';
 import './trafficFlow.css';
-import Breadcrumbs from './breadcrumbs';
-import DisplayOptions from './displayOptions';
-import PhysicsOptions from './physicsOptions';
-import FilterControls from './filterControls';
-import DetailsPanelConnection from './detailsPanelConnection';
-import DetailsPanelNode from './detailsPanelNode';
-import LoadingCover from './loadingCover';
-import Locator from './locator';
-import OptionsPanel from './optionsPanel';
-import UpdateStatus from './updateStatus';
+import Breadcrumbs from '../Breadcrumbs/breadcrumbs';
+import DisplayOptions from '../displayOptions';
+import PhysicsOptions from '../PhysicsOption/physicsOptions';
+import FilterControls from '../FilterControls/filterControls';
+import DetailsPanelConnection from '../DetailsPanel/detailsPanelConnection';
+import DetailsPanelNode from '../DetailsPanel/detailsPanelNode';
+import LoadingCover from '../LoadingCover/loadingCover';
+import Locator from '../Locator/locator';
+import OptionsPanel from '../OptionsPanel/optionsPanel';
+import UpdateStatus from '../UpdateStatus/updateStatus';
 
-import filterActions from './filterActions';
-import filterStore from './filterStore';
+import filterActions from '../../store/filterActions';
+import filterStore from '../../store/filterStore';
 
 const listener = new keypress.Listener();
 
@@ -33,6 +33,7 @@ function animate (time) {
   requestAnimationFrame(animate);
   TWEEN.update(time);
 }
+
 requestAnimationFrame(animate);
 
 const panelWidth = 400;
@@ -48,6 +49,9 @@ class TrafficFlow extends React.Component {
       currentView: undefined,
       redirectedFrom: undefined,
       selectedChart: undefined,
+      objectToHighlight: undefined,
+      objectToHighlightName: '',
+      focusedNode: undefined,
       displayOptions: {
         allowDraggingOfNodes: true,
         showLabels: true,
@@ -84,9 +88,6 @@ class TrafficFlow extends React.Component {
       }
     };
 
-    // Browser history support
-    window.addEventListener('popstate', event => this.handlePopState(event.state));
-
     // Keyboard interactivity
     listener.simple_combo('esc', () => {
       if (this.state.detailedNode) {
@@ -95,12 +96,6 @@ class TrafficFlow extends React.Component {
         this.setState({ currentView: this.state.currentView.slice(0, -1) });
       }
     });
-  }
-
-  handlePopState () {
-    const state = window.history.state || {};
-    this.poppedState = true;
-    this.setState({ currentView: state.selected, objectToHighlight: state.highlighted });
   }
 
   viewChanged = (data) => {
@@ -122,20 +117,15 @@ class TrafficFlow extends React.Component {
       }
     }
     this.setState(changedState);
-  }
+  };
 
   viewUpdated = () => {
     this.setState({});
-  }
-
-  objectHighlighted = (highlightedObject) => {
-    // need to set objectToHighlight for diffing on the react component. since it was already highlighted here, it will be a noop
-    this.setState({ focusedNode: highlightedObject, highlightedObject: highlightedObject, objectToHighlight: highlightedObject, searchTerm: '', matches: { total: -1, visible: -1 }, redirectedFrom: undefined });
-  }
+  };
 
   nodeContextSizeChanged = (dimensions) => {
     this.setState({ labelDimensions: dimensions });
-  }
+  };
 
   checkInitialRoute () {
     // Check the location bar for any direct routing information
@@ -150,35 +140,36 @@ class TrafficFlow extends React.Component {
     }
     const parsedQuery = queryString.parse(window.location.search);
 
-    this.setState({ currentView: currentView, objectToHighlight: parsedQuery.highlighted });
+    this.setState({ currentView: currentView, objectToHighlightName: parsedQuery.highlighted });
   }
 
-  beginSampleData () {
-    this.traffic = { nodes: [], connections: [] };
-    request.get(`${erebosBaseUrl}/v1/vizceral?metric=${this.state.displayOptions.metric}`)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (res && res.status === 200) {
-          this.traffic.clientUpdateTime = Date.now();
-          this.updateData(res.body);
-        }
-      });
+  updateData (newTraffic, clientUpdateTime) {
+    const regionUpdateStatus = _.map(_.filter(newTraffic.nodes, n => n.name !== 'INTERNET'), (node) => {
+      const updated = node.updated;
+      return { region: node.name, updated: updated };
+    });
+    const lastUpdatedTime = _.max(_.map(regionUpdateStatus, 'updated'));
+    this.setState({
+      regionUpdateStatus: regionUpdateStatus,
+      timeOffset: clientUpdateTime - newTraffic.serverUpdateTime,
+      lastUpdatedTime: lastUpdatedTime,
+      trafficData: newTraffic
+    });
   }
 
   update () {
     request.get(`${erebosBaseUrl}/v1/vizceral?metric=${this.state.displayOptions.metric}`)
-    .set('Accept', 'application/json')
-    .end((err, res) => {
-      if (res && res.status === 200) {
-        this.traffic.clientUpdateTime = Date.now();
-        this.updateData(res.body);
-      }
-    });
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (res && res.status === 200) {
+          this.updateData(res.body, Date.now());
+        }
+      });
   }
 
   componentDidMount () {
     this.checkInitialRoute();
-    this.beginSampleData();
+    this.update();
 
     // Listen for changes to the stores
     filterStore.addChangeListener(this.filtersChanged);
@@ -190,63 +181,10 @@ class TrafficFlow extends React.Component {
     clearInterval(this.timer);
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!this.state.currentView ||
-        this.state.currentView[0] !== nextState.currentView[0] ||
-        this.state.currentView[1] !== nextState.currentView[1] ||
-        this.state.highlightedObject !== nextState.highlightedObject) {
-      const titleArray = (nextState.currentView || []).slice(0);
-      titleArray.unshift('Vizceral');
-      document.title = titleArray.join(' / ');
-
-      if (this.poppedState) {
-        this.poppedState = false;
-      } else if (nextState.currentView) {
-        const highlightedObjectName = nextState.highlightedObject && nextState.highlightedObject.getName();
-        const state = {
-          title: document.title,
-          url: `${apiPath}/${nextState.currentView.join('/')}${highlightedObjectName ? `?highlighted=${highlightedObjectName}` : ''}`,
-          selected: nextState.currentView,
-          highlighted: highlightedObjectName
-        };
-        window.history.pushState(state, state.title, state.url);
-      }
-    }
-    return true;
-  }
-
-  updateData (newTraffic) {
-    const regionUpdateStatus = _.map(_.filter(newTraffic.nodes, n => n.name !== 'INTERNET'), (node) => {
-      const updated = node.updated;
-      return { region: node.name, updated: updated };
-    });
-    const lastUpdatedTime = _.max(_.map(regionUpdateStatus, 'updated'));
-    this.setState({
-      regionUpdateStatus: regionUpdateStatus,
-      timeOffset: newTraffic.clientUpdateTime - newTraffic.serverUpdateTime,
-      lastUpdatedTime: lastUpdatedTime,
-      trafficData: newTraffic
-    });
-  }
-
-  isSelectedNode () {
-    return this.state.currentView && this.state.currentView[1] !== undefined;
-  }
-
-  zoomCallback = () => {
-    const currentView = _.clone(this.state.currentView);
-    if (currentView.length === 1 && this.state.focusedNode) {
-      currentView.push(this.state.focusedNode.name);
-    } else if (currentView.length === 2) {
-      currentView.pop();
-    }
-    this.setState({ currentView: currentView });
-  }
-
   displayOptionsChanged = (options) => {
     const displayOptions = _.merge({}, this.state.displayOptions, options);
     this.setState({ displayOptions: displayOptions });
-  }
+  };
 
   physicsOptionsChanged = (physicsOptions) => {
     this.setState({ currentGraph_physicsOptions: physicsOptions });
@@ -255,28 +193,91 @@ class TrafficFlow extends React.Component {
     if (currentGraph !== null) {
       currentGraph.setPhysicsOptions(physicsOptions);
     }
+  };
+
+  calculateBrowserHistory () {
+    return {
+      title: 'Vizceral',
+      selected: this.state.currentView,
+      highlighted: this.state.objectToHighlightName,
+      url: `${apiPath}/${this.state.currentView.join('/')}${this.state.objectToHighlightName ? `?highlighted=${this.state.objectToHighlightName}` : ''}`,
+    };
   }
 
-  navigationCallback = (newNavigationState) => {
-    this.setState({ currentView: newNavigationState });
+  updateUrl () {
+    const browserState = this.calculateBrowserHistory();
+    window.history.pushState(browserState, browserState.title, browserState.url);
   }
+
+  navigationCallback = (newView) => {
+    this.setState({ currentView: newView }, this.updateUrl);
+  };
+
+  focusNode (node) {
+    this.setState({
+      currentView: [this.state.currentView[0], node.getName()],
+      focusedNode: node,
+    }, this.updateUrl);
+  }
+
+  unfocusNode () {
+    const node = this.state.focusedNode;
+    this.setState({
+      currentView: [this.state.currentView[0]],
+      focusedNode: undefined,
+    }, this.updateUrl);
+    return node;
+  }
+
+  highlightObject = (obj) => {
+    if (!obj) {
+      // Vizceral sometimes calls this function with "undefined" (for unknown reasons)
+      return;
+    }
+
+    this.setState({
+      objectToHighlight: obj,
+      objectToHighlightName: obj.getName(),
+      searchTerm: '',
+      matches: { total: -1, visible: -1 },
+      redirectedFrom: undefined
+    }, this.updateUrl);
+  };
+
+  unhightligthObject () {
+    const obj = this.state.objectToHighlight;
+    this.setState({ focusedNode: undefined, objectToHighlight: undefined, objectToHighlightName: '' }, this.updateUrl);
+    return obj;
+  }
+
+  zoomCallback = () => {
+    // If node is focused then zoom back to highlighted mode
+    if (this.state.focusedNode) {
+      const node = this.unfocusNode();
+      this.highlightObject(node);
+      return;
+    }
+    // Zooming in only available for nodes
+    const obj = this.unhightligthObject();
+    if (obj.type === 'node') {
+      this.focusNode(obj);
+    }
+  };
 
   detailsClosed = () => {
-    // If there is a selected node, deselect the node
-    if (this.isSelectedNode()) {
-      this.setState({ currentView: [this.state.currentView[0]] });
-    } else {
-      // If there is just a detailed node, remove the detailed node.
-      this.setState({ focusedNode: undefined, highlightedObject: undefined });
+    if (this.state.focusedNode) {
+      this.unfocusNode();
+      return;
     }
-  }
+    this.unhightligthObject();
+  };
 
   filtersChanged = () => {
     this.setState({
       appliedFilters: filterStore.getChangedFilters(),
       filters: filterStore.getFiltersArray()
     });
-  }
+  };
 
   filtersCleared = () => {
     if (!filterStore.isClear()) {
@@ -286,44 +287,50 @@ class TrafficFlow extends React.Component {
         filterActions.clearFilters();
       }
     }
-  }
+  };
 
   locatorChanged = (value) => {
     this.setState({ searchTerm: value });
-  }
+  };
 
   matchesFound = (matches) => {
     this.setState({ matches: matches });
-  }
+  };
 
   nodeClicked = (node) => {
-    if (this.state.currentView.length === 1) {
-      // highlight node
-      this.setState({ objectToHighlight: node });
-    } else if (this.state.currentView.length === 2) {
-      // detailed view of node
-      this.setState({ currentView: [this.state.currentView[0], node.getName()] });
+    if (!this.state.objectToHighlight) {
+      this.highlightObject(node);
+      return;
     }
-  }
+    this.unhightligthObject();
+    this.focusNode(node);
+  };
 
   resetLayoutButtonClicked = () => {
     const g = this.state.currentGraph;
     if (g != null) {
       g._relayout();
     }
-  }
+  };
 
   dismissAlert = () => {
     this.setState({ redirectedFrom: undefined });
+  };
+
+  getNodeToShowDetails () {
+    let nodeToShowDetails = this.state.currentGraph && this.state.currentGraph.focusedNode;
+    if (!nodeToShowDetails && this.state.objectToHighlight && this.state.objectToHighlight.type === 'node') {
+      nodeToShowDetails = this.state.objectToHighlight;
+    }
+    return nodeToShowDetails;
   }
 
   render () {
     const globalView = this.state.currentView && this.state.currentView.length === 0;
     const nodeView = !globalView && this.state.currentView && this.state.currentView[1] !== undefined;
-    let nodeToShowDetails = this.state.currentGraph && this.state.currentGraph.focusedNode;
-    nodeToShowDetails = nodeToShowDetails || (this.state.highlightedObject && this.state.highlightedObject.type === 'node' ? this.state.highlightedObject : undefined);
-    const connectionToShowDetails = this.state.highlightedObject && this.state.highlightedObject.type === 'connection' ? this.state.highlightedObject : undefined;
+    const connectionToShowDetails = this.state.objectToHighlight && this.state.objectToHighlight.type === 'connection' ? this.state.objectToHighlight : undefined;
     const showLoadingCover = !this.state.currentGraph;
+    const nodeToShowDetails = this.getNodeToShowDetails();
 
     let matches;
     if (this.state.currentGraph) {
@@ -337,33 +344,46 @@ class TrafficFlow extends React.Component {
 
     return (
       <div className="vizceral-container">
-        { this.state.redirectedFrom ?
+        {this.state.redirectedFrom ?
           <Alert onDismiss={this.dismissAlert}>
-            <strong>{this.state.redirectedFrom.join('/') || '/'}</strong> does not exist, you were redirected to <strong>{this.state.currentView.join('/') || '/'}</strong> instead
+            <strong>{this.state.redirectedFrom.join('/') || '/'}</strong> does not exist, you were redirected
+            to <strong>{this.state.currentView.join('/') || '/'}</strong> instead
           </Alert>
-        : undefined }
+          : undefined}
         <div className="subheader">
-          <Breadcrumbs rootTitle="global" navigationStack={this.state.currentView || []} navigationCallback={this.navigationCallback} />
-          <UpdateStatus status={this.state.regionUpdateStatus} baseOffset={this.state.timeOffset} warnThreshold={180000} />
+          <Breadcrumbs rootTitle="global" navigationStack={this.state.currentView || []}
+                       navigationCallback={this.navigationCallback}/>
+          <UpdateStatus status={this.state.regionUpdateStatus} baseOffset={this.state.timeOffset}
+                        warnThreshold={180000}/>
           <div style={{ float: 'right', paddingTop: '4px' }}>
-            { (!globalView && matches) && <Locator changeCallback={this.locatorChanged} searchTerm={this.state.searchTerm} matches={matches} clearFilterCallback={this.filtersCleared} /> }
-            <OptionsPanel title="Filters"><FilterControls /></OptionsPanel>
-            <OptionsPanel title="Display"><DisplayOptions options={this.state.displayOptions} changedCallback={this.displayOptionsChanged} /></OptionsPanel>
-            <OptionsPanel title="Physics"><PhysicsOptions options={this.state.currentGraph_physicsOptions} changedCallback={this.physicsOptionsChanged}/></OptionsPanel>
+            {(!globalView && matches) &&
+            <Locator changeCallback={this.locatorChanged} searchTerm={this.state.searchTerm} matches={matches}
+                     clearFilterCallback={this.filtersCleared}/>}
+            <OptionsPanel title="Filters"><FilterControls/></OptionsPanel>
+            <OptionsPanel title="Display"><DisplayOptions options={this.state.displayOptions}
+                                                          changedCallback={this.displayOptionsChanged}/></OptionsPanel>
+            <OptionsPanel title="Physics"><PhysicsOptions options={this.state.currentGraph_physicsOptions}
+                                                          changedCallback={this.physicsOptionsChanged}/></OptionsPanel>
             <a role="button" className="reset-layout-link" onClick={this.resetLayoutButtonClicked}>Reset Layout</a>
           </div>
         </div>
         <div className="service-traffic-map">
-          <div style={{ position: 'absolute', top: '0px', right: nodeToShowDetails || connectionToShowDetails ? '380px' : '0px', bottom: '0px', left: '0px' }}>
+          <div style={{
+            position: 'absolute',
+            top: '0px',
+            right: nodeToShowDetails || connectionToShowDetails ? '380px' : '0px',
+            bottom: '0px',
+            left: '0px'
+          }}>
             <Vizceral traffic={this.state.trafficData}
                       view={this.state.currentView}
                       showLabels={this.state.displayOptions.showLabels}
                       filters={this.state.filters}
                       viewChanged={this.viewChanged}
                       viewUpdated={this.viewUpdated}
-                      objectHighlighted={this.objectHighlighted}
+                      objectHighlighted={this.highlightObject}
                       nodeContextSizeChanged={this.nodeContextSizeChanged}
-                      objectToHighlight={this.state.objectToHighlight}
+                      objectToHighlight={this.state.objectToHighlight || this.state.objectToHighlightName}
                       matchesFound={this.matchesFound}
                       match={this.state.searchTerm}
                       modes={this.state.modes}
@@ -390,14 +410,13 @@ class TrafficFlow extends React.Component {
                                     nodeClicked={node => this.nodeClicked(node)}
             />
           }
-          <LoadingCover show={showLoadingCover} />
+          <LoadingCover show={showLoadingCover}/>
         </div>
       </div>
     );
   }
 }
 
-TrafficFlow.propTypes = {
-};
+TrafficFlow.propTypes = {};
 
 export default TrafficFlow;

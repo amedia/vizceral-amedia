@@ -3,8 +3,8 @@
 import _ from 'lodash';
 import EventEmitter from 'events';
 
-import AppDispatcher from '../appDispatcher';
-import AppConstants from '../appConstants';
+import AppDispatcher from './appDispatcher';
+import AppConstants from './appConstants';
 
 const CHANGE_EVENT = 'change';
 

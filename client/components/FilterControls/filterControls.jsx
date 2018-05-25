@@ -1,11 +1,11 @@
 'use strict';
 
 import React from 'react';
-import filterStore from './filterStore';
-import filterActions from './filterActions';
-import Stepper from './stepper';
+import filterStore from '../../store/filterStore';
+import filterActions from '../../store/filterActions';
+import Stepper from '../stepper';
 
-import './controls.css';
+import './filterControls.css';
 
 class FilterControls extends React.Component {
   constructor (props) {

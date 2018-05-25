@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import Notices from './notices';
+import Notices from '../notices';
 
 import './detailsPanel.css';
 
