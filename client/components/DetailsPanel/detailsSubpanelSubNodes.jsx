@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import SubNodeList from './subNodeList';
+import SubNodeList from '../subNodeList';
 import DetailsSubpanel from './detailsSubpanel';
 
 class DetailsSubpanelSubNodes extends React.Component {

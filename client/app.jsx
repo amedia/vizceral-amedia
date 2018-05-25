@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import WebFont from 'webfontloader';
 
 import './app.css';
-import TrafficFlow from './components/trafficFlow';
+import TrafficFlow from './components/TrafficFlow/trafficFlow';
 
 const apiPath = typeof API_PATH !== 'undefined' ? API_PATH : '/api/vizceral';
 
