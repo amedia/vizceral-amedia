@@ -4,11 +4,10 @@ import _ from 'lodash';
 import { Alert } from 'react-bootstrap';
 import React from 'react';
 import TWEEN from 'tween.js'; // Start TWEEN updates for sparklines and loading screen fading out
-import Vizceral from 'vizceral-react';
 import queryString from 'query-string';
 import request from 'superagent';
 
-import 'vizceral-react/dist/vizceral.css';
+import Vizceral from '../Vizceral/vizceral';
 import keypress from '../../../node_modules/keypress.js/keypress';
 import './trafficFlow.css';
 import Breadcrumbs from '../Breadcrumbs/breadcrumbs';
