@@ -49,6 +49,9 @@ class TrafficFlow extends React.Component {
       currentView: undefined,
       redirectedFrom: undefined,
       selectedChart: undefined,
+      objectToHighlight: undefined,
+      objectToHighlightName: '',
+      focusedNode: undefined,
       displayOptions: {
         allowDraggingOfNodes: true,
         showLabels: true,
@@ -85,9 +88,6 @@ class TrafficFlow extends React.Component {
       }
     };
 
-    // Browser history support
-    window.addEventListener('popstate', event => this.handlePopState(event.state));
-
     // Keyboard interactivity
     listener.simple_combo('esc', () => {
       if (this.state.detailedNode) {
@@ -96,12 +96,6 @@ class TrafficFlow extends React.Component {
         this.setState({ currentView: this.state.currentView.slice(0, -1) });
       }
     });
-  }
-
-  handlePopState () {
-    const state = window.history.state || {};
-    this.poppedState = true;
-    this.setState({ currentView: state.selected, objectToHighlight: state.highlighted });
   }
 
   viewChanged = (data) => {
@@ -129,18 +123,6 @@ class TrafficFlow extends React.Component {
     this.setState({});
   };
 
-  objectHighlighted = (highlightedObject) => {
-    // need to set objectToHighlight for diffing on the react component. since it was already highlighted here, it will be a noop
-    this.setState({
-      focusedNode: highlightedObject,
-      highlightedObject: highlightedObject,
-      objectToHighlight: highlightedObject,
-      searchTerm: '',
-      matches: { total: -1, visible: -1 },
-      redirectedFrom: undefined
-    });
-  };
-
   nodeContextSizeChanged = (dimensions) => {
     this.setState({ labelDimensions: dimensions });
   };
@@ -158,19 +140,21 @@ class TrafficFlow extends React.Component {
     }
     const parsedQuery = queryString.parse(window.location.search);
 
-    this.setState({ currentView: currentView, objectToHighlight: parsedQuery.highlighted });
+    this.setState({ currentView: currentView, objectToHighlightName: parsedQuery.highlighted });
   }
 
-  beginSampleData () {
-    this.traffic = { nodes: [], connections: [] };
-    request.get(`${erebosBaseUrl}/v1/vizceral?metric=${this.state.displayOptions.metric}`)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (res && res.status === 200) {
-          this.traffic.clientUpdateTime = Date.now();
-          this.updateData(res.body);
-        }
-      });
+  updateData (newTraffic, clientUpdateTime) {
+    const regionUpdateStatus = _.map(_.filter(newTraffic.nodes, n => n.name !== 'INTERNET'), (node) => {
+      const updated = node.updated;
+      return { region: node.name, updated: updated };
+    });
+    const lastUpdatedTime = _.max(_.map(regionUpdateStatus, 'updated'));
+    this.setState({
+      regionUpdateStatus: regionUpdateStatus,
+      timeOffset: clientUpdateTime - newTraffic.serverUpdateTime,
+      lastUpdatedTime: lastUpdatedTime,
+      trafficData: newTraffic
+    });
   }
 
   update () {
@@ -178,15 +162,14 @@ class TrafficFlow extends React.Component {
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (res && res.status === 200) {
-          this.traffic.clientUpdateTime = Date.now();
-          this.updateData(res.body);
+          this.updateData(res.body, Date.now());
         }
       });
   }
 
   componentDidMount () {
     this.checkInitialRoute();
-    this.beginSampleData();
+    this.update();
 
     // Listen for changes to the stores
     filterStore.addChangeListener(this.filtersChanged);
@@ -197,59 +180,6 @@ class TrafficFlow extends React.Component {
     filterStore.removeChangeListener(this.filtersChanged);
     clearInterval(this.timer);
   }
-
-  shouldComponentUpdate (nextProps, nextState) {
-    if (!this.state.currentView ||
-      this.state.currentView[0] !== nextState.currentView[0] ||
-      this.state.currentView[1] !== nextState.currentView[1] ||
-      this.state.highlightedObject !== nextState.highlightedObject) {
-      const titleArray = (nextState.currentView || []).slice(0);
-      titleArray.unshift('Vizceral');
-      document.title = titleArray.join(' / ');
-
-      if (this.poppedState) {
-        this.poppedState = false;
-      } else if (nextState.currentView) {
-        const highlightedObjectName = nextState.highlightedObject && nextState.highlightedObject.getName();
-        const state = {
-          title: document.title,
-          url: `${apiPath}/${nextState.currentView.join('/')}${highlightedObjectName ? `?highlighted=${highlightedObjectName}` : ''}`,
-          selected: nextState.currentView,
-          highlighted: highlightedObjectName
-        };
-        window.history.pushState(state, state.title, state.url);
-      }
-    }
-    return true;
-  }
-
-  updateData (newTraffic) {
-    const regionUpdateStatus = _.map(_.filter(newTraffic.nodes, n => n.name !== 'INTERNET'), (node) => {
-      const updated = node.updated;
-      return { region: node.name, updated: updated };
-    });
-    const lastUpdatedTime = _.max(_.map(regionUpdateStatus, 'updated'));
-    this.setState({
-      regionUpdateStatus: regionUpdateStatus,
-      timeOffset: newTraffic.clientUpdateTime - newTraffic.serverUpdateTime,
-      lastUpdatedTime: lastUpdatedTime,
-      trafficData: newTraffic
-    });
-  }
-
-  isSelectedNode () {
-    return this.state.currentView && this.state.currentView[1] !== undefined;
-  }
-
-  zoomCallback = () => {
-    const currentView = _.clone(this.state.currentView);
-    if (currentView.length === 1 && this.state.focusedNode) {
-      currentView.push(this.state.focusedNode.name);
-    } else if (currentView.length === 2) {
-      currentView.pop();
-    }
-    this.setState({ currentView: currentView });
-  };
 
   displayOptionsChanged = (options) => {
     const displayOptions = _.merge({}, this.state.displayOptions, options);
@@ -265,18 +195,81 @@ class TrafficFlow extends React.Component {
     }
   };
 
-  navigationCallback = (newNavigationState) => {
-    this.setState({ currentView: newNavigationState });
+  calculateBrowserHistory () {
+    return {
+      title: 'Vizceral',
+      selected: this.state.currentView,
+      highlighted: this.state.objectToHighlightName,
+      url: `${apiPath}/${this.state.currentView.join('/')}${this.state.objectToHighlightName ? `?highlighted=${this.state.objectToHighlightName}` : ''}`,
+    };
+  }
+
+  updateUrl () {
+    const browserState = this.calculateBrowserHistory();
+    window.history.pushState(browserState, browserState.title, browserState.url);
+  }
+
+  navigationCallback = (newView) => {
+    this.setState({ currentView: newView }, this.updateUrl);
+  };
+
+  focusNode (node) {
+    this.setState({
+      currentView: [this.state.currentView[0], node.getName()],
+      focusedNode: node,
+    }, this.updateUrl);
+  }
+
+  unfocusNode () {
+    const node = this.state.focusedNode;
+    this.setState({
+      currentView: [this.state.currentView[0]],
+      focusedNode: undefined,
+    }, this.updateUrl);
+    return node;
+  }
+
+  highlightObject = (obj) => {
+    if (!obj) {
+      // Vizceral sometimes calls this function with "undefined" (for unknown reasons)
+      return;
+    }
+
+    this.setState({
+      objectToHighlight: obj,
+      objectToHighlightName: obj.getName(),
+      searchTerm: '',
+      matches: { total: -1, visible: -1 },
+      redirectedFrom: undefined
+    }, this.updateUrl);
+  };
+
+  unhightligthObject () {
+    const obj = this.state.objectToHighlight;
+    this.setState({ focusedNode: undefined, objectToHighlight: undefined, objectToHighlightName: '' }, this.updateUrl);
+    return obj;
+  }
+
+  zoomCallback = () => {
+    // If node is focused then zoom back to highlighted mode
+    if (this.state.focusedNode) {
+      const node = this.unfocusNode();
+      this.highlightObject(node);
+      return;
+    }
+    // Zooming in only available for nodes
+    const obj = this.unhightligthObject();
+    if (obj.type === 'node') {
+      this.focusNode(obj);
+    }
   };
 
   detailsClosed = () => {
-    // If there is a selected node, deselect the node
-    if (this.isSelectedNode()) {
-      this.setState({ currentView: [this.state.currentView[0]] });
-    } else {
-      // If there is just a detailed node, remove the detailed node.
-      this.setState({ focusedNode: undefined, highlightedObject: undefined });
+    if (this.state.focusedNode) {
+      this.unfocusNode();
+      return;
     }
+    this.unhightligthObject();
   };
 
   filtersChanged = () => {
@@ -305,13 +298,12 @@ class TrafficFlow extends React.Component {
   };
 
   nodeClicked = (node) => {
-    if (this.state.currentView.length === 1) {
-      // highlight node
-      this.setState({ objectToHighlight: node });
-    } else if (this.state.currentView.length === 2) {
-      // detailed view of node
-      this.setState({ currentView: [this.state.currentView[0], node.getName()] });
+    if (!this.state.objectToHighlight) {
+      this.highlightObject(node);
+      return;
     }
+    this.unhightligthObject();
+    this.focusNode(node);
   };
 
   resetLayoutButtonClicked = () => {
@@ -325,13 +317,20 @@ class TrafficFlow extends React.Component {
     this.setState({ redirectedFrom: undefined });
   };
 
+  getNodeToShowDetails () {
+    let nodeToShowDetails = this.state.currentGraph && this.state.currentGraph.focusedNode;
+    if (!nodeToShowDetails && this.state.objectToHighlight && this.state.objectToHighlight.type === 'node') {
+      nodeToShowDetails = this.state.objectToHighlight;
+    }
+    return nodeToShowDetails;
+  }
+
   render () {
     const globalView = this.state.currentView && this.state.currentView.length === 0;
     const nodeView = !globalView && this.state.currentView && this.state.currentView[1] !== undefined;
-    let nodeToShowDetails = this.state.currentGraph && this.state.currentGraph.focusedNode;
-    nodeToShowDetails = nodeToShowDetails || (this.state.highlightedObject && this.state.highlightedObject.type === 'node' ? this.state.highlightedObject : undefined);
-    const connectionToShowDetails = this.state.highlightedObject && this.state.highlightedObject.type === 'connection' ? this.state.highlightedObject : undefined;
+    const connectionToShowDetails = this.state.objectToHighlight && this.state.objectToHighlight.type === 'connection' ? this.state.objectToHighlight : undefined;
     const showLoadingCover = !this.state.currentGraph;
+    const nodeToShowDetails = this.getNodeToShowDetails();
 
     let matches;
     if (this.state.currentGraph) {
@@ -382,9 +381,9 @@ class TrafficFlow extends React.Component {
                       filters={this.state.filters}
                       viewChanged={this.viewChanged}
                       viewUpdated={this.viewUpdated}
-                      objectHighlighted={this.objectHighlighted}
+                      objectHighlighted={this.highlightObject}
                       nodeContextSizeChanged={this.nodeContextSizeChanged}
-                      objectToHighlight={this.state.objectToHighlight}
+                      objectToHighlight={this.state.objectToHighlight || this.state.objectToHighlightName}
                       matchesFound={this.matchesFound}
                       match={this.state.searchTerm}
                       modes={this.state.modes}
