@@ -1,6 +1,6 @@
 {
   "name": "vizceral",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Amedia fork of Vizceral",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist",
